@@ -1,0 +1,57 @@
+# sweep.yaml - Final version, corrected for your Argparse-based script
+
+# 1. Your training script
+program: train_autoencoder_cnn.py
+
+# 2. Search method
+method: grid
+
+# 3. Metric to optimize
+metric:
+  name: val/l1_err
+  goal: minimize
+
+# 4. Parameters to test in the grid.
+#    These are "flattened" with dot notation to match your argparse setup.
+parameters:
+
+  wandb_args.entity:
+    value: scale-gmns
+  wandb_args.project:
+    value: "cifar10-grid-sweep-cnn-relu"
+  
+  wandb:
+    value: True
+
+  # --- Settings for a fast and clean sweep ---
+  debug_subset_fraction:
+    value: 0.20
+  save_model.save_model:
+    value: False
+
+  # --- Hyperparameters to tune ---
+  train_args.num_epochs:
+    value: 100
+  train_args.loss_args.temperature:
+    values: [0.5, 1.0, 1.5]
+
+  optimization.optimizer_args.lr:
+    values: [0.001, 0.0005, 0.0001]
+  optimization.scheduler_args.warmup_steps:
+    value: 200
+
+  scalegmn_args.d_hid:
+    values: [128, 256]
+  
+  decoder_args.d_hidden:
+    values: [[2, 4], [2, 4, 8]]
+
+# --- This command block is still the best practice ---
+# It ensures your base config file is always passed correctly
+# and avoids the "unexpected extra arguments" error.
+command:
+  - ${interpreter}  # This is 'python'
+  - ${program}      # This is 'train_autoencoder_cnn.py'
+  - ${args}         # These are the flattened sweep parameters
+  - "--conf"        # This adds the static --conf argument
+  - "configs/cifar10_rec/scalegmn_relu.yml" # Path to your base config

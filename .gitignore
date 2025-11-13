@@ -1,0 +1,15 @@
+*.out
+*.job
+*.pt
+*.gz
+*.pdf
+*.png
+.env
+/data/
+/model/
+__pycache__/
+/wandb/
+.DS_STORE
+/outputs/
+/trash/
+cifar10_data.tar.gz

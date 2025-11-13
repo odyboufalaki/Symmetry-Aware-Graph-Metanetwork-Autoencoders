@@ -1,0 +1,61 @@
+# hydra_grid_sweep.yaml - Corrected version with '+' for adding new keys
+
+# 1. The program to run. This is your main.py script.
+program: ./src/neural_graphs/experiments/cnn_generalization/main.py
+
+# 2. Search method
+method: grid
+
+# 3. Metric to optimize
+# Your code saves the best model based on 'val/l1_err', so we use that here.
+metric:
+  goal: minimize
+  name: val/l1_err
+
+# 4. Parameters to override for each run in the grid.
+parameters:
+
+  # --- Fixed parameters for all runs (these are overrides) ---
+  model:
+    value: pna
+  data:
+    value: zoo_cifar_nfn_relu
+  distributed:
+    value: False
+
+  # --- Settings for a fast and efficient sweep (these are overrides) ---
+  save_checkpoints:
+    value: False
+  n_epochs:
+    value: 100 # Run for 100 epochs instead of 300
+  wandb.project:
+    value: "neural-graphs-grid-sweep-relu"
+  wandb.entity:
+    value: "scale-gmns"
+  scheduler.warmup_steps:
+    value: 200
+
+  # --- NEW KEYS being ADDED to the config (require a '+') ---
+  data.debug_subset_fraction:
+    value: 0.20
+  loss.temperature:
+    values: [0.5, 1.0, 1.5]
+  # We added a default for this, but using '+' is safer and more explicit
+  model.decoder_hidden_dims:
+    values:
+      - [2, 4]
+      - [2, 4, 8]
+
+  # --- Hyperparameters to tune (these are overrides) ---
+  optim.lr:
+    values: [0.001, 0.0005, 0.0001]
+  model.d_hid:
+    values: [128, 256]
+
+
+# This command structure is required by the Hydra W&B Sweeper Plugin.
+command:
+  - ${env}
+  - ${interpreter}
+  - ${program}
+  - ${args_no_hyphens}

@@ -1,0 +1,48 @@
+project: test
+entity: scale-gmns # Your wandb entity
+program: inr_autoencoder.py # Your main training script
+method: grid # Or bayes, random
+metric:
+  name: val/loss # Monitor the validation reconstruction loss
+  goal: minimize # We want to minimize the reconstruction loss
+
+parameters:
+  # --- Parameters to Sweep ---
+  # Reference parameters from your base config (mnist_cls/scalegmn_autoencoder.yml)
+  # using the same nested structure.
+
+  #batch_size:
+  #   values: [64, 128, 256] # Try these specific batch sizes
+  #train_args.pixel_expansion:
+    #values: [1, 2, 4] # Try different pixel expansions
+  train_args.reconstruction_type:
+    values: [pixels, inr] # Try both pixel and INR reconstruction types
+  scalegmn_args.d_hid:    
+    values: [256] # Try different hidden dimensions for the GMN
+
+  # scalegmn_args.gnn_args.dropout:
+  #   values: [0.0, 0.1, 0.2]
+  scalegmn_args.readout_range:
+    values: [full_graph]
+    
+
+  # Rather than trying to plug d_hid into decoder_args.d_hidden here,
+  # just sweep over a small set of integer multipliers
+  decoder_args.d_hidden:
+    values:
+      [[],
+      [2],
+      [2, 4],
+      [2, 4, 8],
+      ]
+  
+  #values: [[],[256],[256, 512], [512, 1024], [256,512,1024]]
+
+  optimization.optimizer_args.lr:
+    values: [1e-2, 1e-3, 1e-4]
+  
+  # --- Fixed Parameters (Optional Overrides) ---
+  # You can optionally override parameters from your base config here
+  # if you want them fixed to a specific value for ALL sweep runs.
+  wandb:
+    value: True

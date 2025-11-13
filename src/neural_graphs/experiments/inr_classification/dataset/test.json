@@ -1,0 +1,31 @@
+{
+  "train": {
+    "path": [
+      "data/mnist-inrs/mnist_png_training_8_20387/checkpoints/model_final.pth",
+      "data/mnist-inrs/mnist_png_training_4_13864/checkpoints/model_final.pth",
+      "data/mnist-inrs/mnist_png_training_8_20387/checkpoints/model_final.pth",
+      "data/mnist-inrs/mnist_png_training_4_13864/checkpoints/model_final.pth",
+      "data/mnist-inrs/mnist_png_training_8_20387/checkpoints/model_final.pth",
+      "data/mnist-inrs/mnist_png_training_4_13864/checkpoints/model_final.pth",
+      "data/mnist-inrs/mnist_png_training_8_20387/checkpoints/model_final.pth",
+      "data/mnist-inrs/mnist_png_training_4_13864/checkpoints/model_final.pth",
+      "data/mnist-inrs/mnist_png_training_8_20387/checkpoints/model_final.pth",
+      "data/mnist-inrs/mnist_png_training_4_13864/checkpoints/model_final.pth"
+    ],
+    "label": ["8", "4", "8", "4", "8", "4", "8", "4", "8", "4"]
+  },
+  "val": {
+    "path": [
+      "data/mnist-inrs/mnist_png_training_4_914/checkpoints/model_final.pth",
+      "data/mnist-inrs/mnist_png_training_8_559/checkpoints/model_final.pth"
+    ],
+    "label": ["4", "8"]
+  },
+  "test": {
+    "path": [
+      "data/mnist-inrs/mnist_png_testing_8_6018/checkpoints/model_final.pth",
+      "data/mnist-inrs/mnist_png_testing_4_3792/checkpoints/model_final.pth"
+    ],
+    "label": ["8", "4"]
+  }
+}
